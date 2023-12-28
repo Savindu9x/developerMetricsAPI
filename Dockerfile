@@ -1,7 +1,7 @@
 FROM python:3.11.7-alpine3.19
 
-WORKDIR /app
-COPY . /app
+WORKDIR /app/src
+COPY . /app/src
 
 RUN pip install flask mysql-connector-python
 
