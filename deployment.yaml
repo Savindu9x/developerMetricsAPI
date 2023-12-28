@@ -1,0 +1,122 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: developeriq-productivity
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: developeriq-productivity
+  name: developermetrics-deploy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: developermetrics-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: developermetrics-app
+    spec:
+      containers:
+      - image: savindu9x/developermetricapi:latest
+        imagePullPolicy: Always
+        name: developermetrics-app
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: developeriq-productivity
+  name: developermetrics-service
+spec:
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: developermetrics-app
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: developeriq-productivity
+  name: developersummary-deploy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: developersummary-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: developersummary-app
+    spec:
+      containers:
+      - image: savindu9x/developersummaryapi:latest
+        imagePullPolicy: Always
+        name: developersummary-app
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: developeriq-productivity
+  name: developersummary-service
+spec:
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: developersummary-app
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: developeriq-productivity
+  name: usermanagement-deploy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: usermanagement-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: usermanagement-app
+    spec:
+      containers:
+      - image: savindu9x/usermanagementapi:latest
+        imagePullPolicy: Always
+        name: usermanagement-app
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: developeriq-productivity
+  name: usermanagement-service
+spec:
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: usermanagement-app
+  type: LoadBalancer
+status:
+  loadBalancer: {}
