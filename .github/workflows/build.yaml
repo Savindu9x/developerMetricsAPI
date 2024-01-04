@@ -1,4 +1,4 @@
-name: Microservice Build Deploy to EKS
+name: Microservices Build Deploy to EKS
 
 on:
   push:
