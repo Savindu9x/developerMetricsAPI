@@ -7,9 +7,9 @@ on:
     branches: [ "main" ]
 
 env:
-  ECR_REPOSITORY: developiq
+  ECR_REPOSITORY: developeriq-demo
   EKS_CLUSTER_NAME: developeriq-cluster
-  AWS_REGION: us-east-1
+  AWS_REGION: ap-south-1
 
 jobs:
   build:
@@ -39,7 +39,6 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}  
-        ECR_REPOSITORY: deverlopiq-demo
         IMAGE_TAG: ${{ steps.commit.outputs.short }}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f docker/Dockerfile .
