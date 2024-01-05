@@ -1,4 +1,4 @@
-name: Microservices Build Deploy to EKS
+name: Microservice Build Deploy to EKS
 
 on:
   push:
@@ -31,6 +31,12 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{env.AWS_REGION}}
+        
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v2.0
+      with:
+        version: 'v1.28.4' # default is latest stable
+      id: install
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -52,5 +58,4 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
         IMAGE_TAG: ${{ steps.commit.outputs.short }}
       run: |
-        sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment.yaml && \
         kubectl apply -f deployment.yaml
